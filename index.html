@@ -4,53 +4,204 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description"
+    content="Panduan teknis penyiaran Nusantara TV (NTV) - dari MCR hingga layar penonton. Penjelasan mendetail alur siaran digital DVB-T2.">
   <title>Alur Siaran NTV</title>
   <style>
+    :root {
+      /* Colors */
+      --bg-color: #ffffff;
+      --text-color: #1a1a18;
+      --text-muted: #888780;
+      --border-color: #e8e6de;
+
+      --card-bg: #fff;
+      --card-border: #e8e6de;
+
+      --tab-bg: #fff;
+      --tab-text: #5f5e5a;
+      --tab-border: #e8e6de;
+      --tab-hover-shadow: rgba(60, 52, 137, 0.15);
+      --tab-hover-text: #3c3489;
+      --tab-hover-border: #afa9ec;
+      --tab-active-bg1: #3c3489;
+      --tab-active-bg2: #5e54bc;
+      --tab-active-shadow: rgba(60, 52, 137, 0.3);
+
+      --flow-purple-bg: #eeedfe;
+      --flow-purple-border: #afa9ec;
+      --flow-purple-text: #3c3489;
+
+      --flow-blue-bg: #e6f1fb;
+      --flow-blue-border: #85b7eb;
+      --flow-blue-text: #0c447c;
+
+      --flow-teal-bg: #e1f5ee;
+      --flow-teal-border: #5dcaa5;
+      --flow-teal-text: #085041;
+
+      --flow-amber-bg: #faeeda;
+      --flow-amber-border: #ef9f27;
+      --flow-amber-text: #633806;
+
+      --flow-coral-bg: #faece7;
+      --flow-coral-border: #f0997b;
+      --flow-coral-text: #712b13;
+
+      --flow-green-bg: #eaf3de;
+      --flow-green-border: #97c459;
+      --flow-green-text: #27500a;
+
+      --table-header-bg: #f1efe8;
+      --table-border: #f1efe8;
+      --table-hover: #fafaf8;
+
+      --analogy-bg: #f5f4f0;
+      --analogy-border: #7f77dd;
+
+      --placeholder-bg: #f0f0f0;
+      --placeholder-text: #999;
+      --placeholder-border: #e8e6de;
+    }
+
+    [data-theme="dark"] {
+      --bg-color: #121212;
+      --text-color: #e0e0e0;
+      --text-muted: #a0a0a0;
+      --border-color: #333;
+
+      --card-bg: #1e1e1e;
+      --card-border: #333;
+
+      --tab-bg: #2d2d2d;
+      --tab-text: #cccccc;
+      --tab-border: #444;
+      --tab-hover-shadow: rgba(0, 0, 0, 0.5);
+      --tab-hover-text: #afa9ec;
+      --tab-hover-border: #afa9ec;
+      --tab-active-bg1: #5e54bc;
+      --tab-active-bg2: #7f77dd;
+      --tab-active-shadow: rgba(0, 0, 0, 0.8);
+
+      --flow-purple-bg: rgba(60, 52, 137, 0.2);
+      --flow-purple-border: #5e54bc;
+      --flow-purple-text: #afa9ec;
+
+      --flow-blue-bg: rgba(12, 68, 124, 0.2);
+      --flow-blue-border: #0c447c;
+      --flow-blue-text: #85b7eb;
+
+      --flow-teal-bg: rgba(8, 80, 65, 0.2);
+      --flow-teal-border: #085041;
+      --flow-teal-text: #5dcaa5;
+
+      --flow-amber-bg: rgba(99, 56, 6, 0.2);
+      --flow-amber-border: #633806;
+      --flow-amber-text: #ef9f27;
+
+      --flow-coral-bg: rgba(113, 43, 19, 0.2);
+      --flow-coral-border: #712b13;
+      --flow-coral-text: #f0997b;
+
+      --flow-green-bg: rgba(39, 80, 10, 0.2);
+      --flow-green-border: #27500a;
+      --flow-green-text: #97c459;
+
+      --table-header-bg: #2d2d2d;
+      --table-border: #333;
+      --table-hover: #252525;
+
+      --analogy-bg: #252525;
+      --analogy-border: #5e54bc;
+
+      --placeholder-bg: #2a2a2a;
+      --placeholder-text: #777;
+      --placeholder-border: #333;
+    }
+
     * {
       box-sizing: border-box;
       margin: 0;
-      padding: 0
+      padding: 0;
+      transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
     }
 
     body {
       font-family: sans-serif;
-      background: #ffffff;
-      color: #1a1a18;
-      padding: 20px 16px
+      background: var(--bg-color);
+      color: var(--text-color);
+      padding: 20px 16px;
+    }
+
+    .header-container {
+      position: relative;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .theme-toggle {
+      position: absolute;
+      top: 0;
+      right: 0;
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      color: var(--text-color);
+      border-radius: 50%;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 16px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .theme-toggle:hover {
+      transform: scale(1.05);
     }
 
     h1 {
       font-size: 22px;
       font-weight: 500;
       text-align: center;
-      margin-bottom: 4px
+      margin-bottom: 4px;
     }
 
     .tagline {
       text-align: center;
       font-size: 13px;
-      color: #888780;
-      margin-bottom: 28px
+      color: var(--text-muted);
+      margin-bottom: 28px;
     }
 
     /* NAV TABS */
+    .tabs-wrapper {
+      position: sticky;
+      top: 0;
+      background: var(--bg-color);
+      padding: 10px 0;
+      z-index: 100;
+      border-bottom: 1px solid var(--border-color);
+      margin-bottom: 24px;
+    }
+
     .tabs {
       display: flex;
       gap: 8px;
-      margin-bottom: 24px;
       flex-wrap: wrap;
-      justify-content: center
+      justify-content: center;
     }
 
     .tab {
       padding: 8px 18px;
       border-radius: 25px;
-      border: 2px solid #e8e6de;
-      background: #fff;
+      border: 2px solid var(--tab-border);
+      background: var(--tab-bg);
       font-size: 13px;
       font-weight: 500;
       cursor: pointer;
-      color: #5f5e5a;
+      color: var(--tab-text);
       transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
       display: flex;
       align-items: center;
@@ -59,39 +210,41 @@
 
     .tab:hover {
       transform: translateY(-3px);
-      box-shadow: 0 6px 12px rgba(60, 52, 137, 0.15);
-      color: #3c3489;
-      border-color: #afa9ec;
+      box-shadow: 0 6px 12px var(--tab-hover-shadow);
+      color: var(--tab-hover-text);
+      border-color: var(--tab-hover-border);
     }
 
     .tab:active {
       transform: translateY(1px);
     }
 
-    .tab.active {
-      background: linear-gradient(135deg, #3c3489, #5e54bc);
+    .tab[aria-selected="true"] {
+      background: linear-gradient(135deg, var(--tab-active-bg1), var(--tab-active-bg2));
       color: #fff;
       border-color: transparent;
-      box-shadow: 0 4px 15px rgba(60, 52, 137, 0.3);
+      box-shadow: 0 4px 15px var(--tab-active-shadow);
       transform: translateY(-2px);
     }
 
     /* PAGES */
     .page {
-      display: none
+      display: none;
+      max-width: 800px;
+      margin: 0 auto;
     }
 
     .page.active {
-      display: block
+      display: block;
     }
 
     /* CARDS */
     .card {
-      background: #fff;
+      background: var(--card-bg);
       border-radius: 12px;
-      border: 1px solid #e8e6de;
+      border: 1px solid var(--card-border);
       padding: 20px;
-      margin-bottom: 16px
+      margin-bottom: 16px;
     }
 
     .card-title {
@@ -99,7 +252,7 @@
       font-weight: 500;
       margin-bottom: 12px;
       padding-bottom: 8px;
-      border-bottom: 1px solid #f1efe8
+      border-bottom: 1px solid var(--card-border);
     }
 
     /* FLOW */
@@ -107,7 +260,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 0
+      gap: 0;
     }
 
     .flow-box {
@@ -115,110 +268,123 @@
       max-width: 520px;
       border-radius: 10px;
       padding: 14px 18px;
-      position: relative
+      position: relative;
+    }
+
+    .clickable-flow {
+      cursor: pointer;
+    }
+
+    .clickable-flow::after {
+      content: '↗';
+      position: absolute;
+      top: 12px;
+      right: 14px;
+      font-size: 14px;
+      opacity: 0.5;
     }
 
     .flow-box .step-num {
       font-size: 11px;
       font-weight: 500;
       opacity: .7;
-      margin-bottom: 3px
+      margin-bottom: 3px;
     }
 
     .flow-box .step-title {
       font-size: 15px;
       font-weight: 500;
-      margin-bottom: 4px
+      margin-bottom: 4px;
     }
 
     .flow-box .step-desc {
       font-size: 12px;
       line-height: 1.6;
-      opacity: .85
+      opacity: .85;
     }
 
     .flow-box .step-tools {
       font-size: 11px;
       margin-top: 6px;
       opacity: .7;
-      font-style: italic
+      font-style: italic;
     }
 
     .arrow-down {
       text-align: center;
       font-size: 20px;
-      color: #888780;
+      color: var(--text-muted);
       line-height: 1;
       padding: 2px 0;
-      position: relative
+      position: relative;
     }
 
     .arrow-down .arr-label {
       font-size: 11px;
-      color: #888780;
+      color: var(--text-muted);
       display: block;
-      margin-top: 1px
+      margin-top: 1px;
     }
 
     /* Color themes per step */
     .s-purple {
-      background: #eeedfe;
-      border: 1px solid #afa9ec
+      background: var(--flow-purple-bg);
+      border: 1px solid var(--flow-purple-border);
     }
 
     .s-purple .step-num,
     .s-purple .step-title {
-      color: #3c3489
+      color: var(--flow-purple-text);
     }
 
     .s-blue {
-      background: #e6f1fb;
-      border: 1px solid #85b7eb
+      background: var(--flow-blue-bg);
+      border: 1px solid var(--flow-blue-border);
     }
 
     .s-blue .step-num,
     .s-blue .step-title {
-      color: #0c447c
+      color: var(--flow-blue-text);
     }
 
     .s-teal {
-      background: #e1f5ee;
-      border: 1px solid #5dcaa5
+      background: var(--flow-teal-bg);
+      border: 1px solid var(--flow-teal-border);
     }
 
     .s-teal .step-num,
     .s-teal .step-title {
-      color: #085041
+      color: var(--flow-teal-text);
     }
 
     .s-amber {
-      background: #faeeda;
-      border: 1px solid #ef9f27
+      background: var(--flow-amber-bg);
+      border: 1px solid var(--flow-amber-border);
     }
 
     .s-amber .step-num,
     .s-amber .step-title {
-      color: #633806
+      color: var(--flow-amber-text);
     }
 
     .s-coral {
-      background: #faece7;
-      border: 1px solid #f0997b
+      background: var(--flow-coral-bg);
+      border: 1px solid var(--flow-coral-border);
     }
 
     .s-coral .step-num,
     .s-coral .step-title {
-      color: #712b13
+      color: var(--flow-coral-text);
     }
 
     .s-green {
-      background: #eaf3de;
-      border: 1px solid #97c459
+      background: var(--flow-green-bg);
+      border: 1px solid var(--flow-green-border);
     }
 
     .s-green .step-num,
     .s-green .step-title {
-      color: #27500a
+      color: var(--flow-green-text);
     }
 
     /* Branch layout */
@@ -227,70 +393,70 @@
       gap: 12px;
       width: 100%;
       max-width: 520px;
-      justify-content: center
+      justify-content: center;
     }
 
     .branch-box {
       flex: 1;
       border-radius: 10px;
-      padding: 12px 14px
+      padding: 12px 14px;
+      position: relative;
     }
 
     .branch-label {
       font-size: 11px;
       font-weight: 500;
       margin-bottom: 3px;
-      opacity: .7
+      opacity: .7;
     }
 
     .branch-title {
       font-size: 13px;
       font-weight: 500;
-      margin-bottom: 3px
+      margin-bottom: 3px;
     }
 
     .branch-desc {
       font-size: 11px;
       line-height: 1.5;
-      opacity: .8
+      opacity: .8;
     }
 
     /* DETAIL PAGES */
     .detail-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 12px
+      gap: 12px;
     }
 
     @media(max-width:480px) {
       .detail-grid {
-        grid-template-columns: 1fr
+        grid-template-columns: 1fr;
       }
     }
 
     .detail-card {
-      background: #fff;
+      background: var(--card-bg);
       border-radius: 10px;
-      border: 1px solid #e8e6de;
-      padding: 14px
+      border: 1px solid var(--card-border);
+      padding: 14px;
     }
 
     .detail-card h3 {
       font-size: 13px;
       font-weight: 500;
       margin-bottom: 8px;
-      color: #3c3489
+      color: var(--flow-purple-text);
     }
 
     .detail-card p,
     .detail-card li {
       font-size: 12px;
       line-height: 1.7;
-      color: #444441
     }
 
     .detail-card ul {
-      padding-left: 16px
+      padding-left: 16px;
     }
 
     .badge {
@@ -299,100 +465,126 @@
       border-radius: 10px;
       font-size: 11px;
       font-weight: 500;
-      margin-bottom: 8px
+      margin-bottom: 8px;
     }
 
     .badge-purple {
-      background: #eeedfe;
-      color: #3c3489
+      background: var(--flow-purple-bg);
+      color: var(--flow-purple-text);
     }
 
     .badge-blue {
-      background: #e6f1fb;
-      color: #0c447c
+      background: var(--flow-blue-bg);
+      color: var(--flow-blue-text);
     }
 
     .badge-teal {
-      background: #e1f5ee;
-      color: #085041
+      background: var(--flow-teal-bg);
+      color: var(--flow-teal-text);
     }
 
     .badge-amber {
-      background: #faeeda;
-      color: #633806
+      background: var(--flow-amber-bg);
+      color: var(--flow-amber-text);
     }
 
     .badge-coral {
-      background: #faece7;
-      color: #712b13
+      background: var(--flow-coral-bg);
+      color: var(--flow-coral-text);
     }
 
     table {
       width: 100%;
       border-collapse: collapse;
       font-size: 12px;
-      margin-top: 8px
+      margin-top: 8px;
     }
 
     th {
-      background: #f1efe8;
+      background: var(--table-header-bg);
       padding: 7px 10px;
       text-align: left;
       font-weight: 500;
-      color: #444441
     }
 
     td {
       padding: 7px 10px;
-      border-top: 1px solid #f1efe8;
-      color: #5f5e5a;
-      vertical-align: top
+      border-top: 1px solid var(--table-border);
+      vertical-align: top;
     }
 
     tr:hover td {
-      background: #fafaf8
+      background: var(--table-hover);
     }
 
     .analogy {
-      background: #f5f4f0;
+      background: var(--analogy-bg);
       border-radius: 8px;
       padding: 12px;
       font-size: 12px;
       line-height: 1.7;
-      color: #5f5e5a;
-      border-left: 3px solid #7f77dd;
-      margin-top: 10px
+      border-left: 3px solid var(--analogy-border);
+      margin-top: 10px;
     }
 
     .analogy strong {
-      color: #3c3489
+      color: var(--flow-purple-text);
     }
 
-    /* Dark mode styling dihilangkan agar tampilan selalu cerah/putih */
+    /* IMAGE PLACEHOLDER */
+    .img-placeholder {
+      width: 100%;
+      height: 200px;
+      background-color: var(--placeholder-bg);
+      border: 2px dashed var(--placeholder-border);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--placeholder-text);
+      font-size: 13px;
+      font-weight: 500;
+      margin-bottom: 16px;
+      text-align: center;
+      padding: 20px;
+    }
   </style>
 </head>
 
 <body>
 
-  <h1>Alur Siaran Nusantara TV</h1>
-  <p class="tagline">Panduan teknis penyiaran NTV — dari MCR hingga layar penonton</p>
+  <div class="header-container">
+    <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle Dark Mode" title="Toggle Dark Mode">
+      <span id="theme-icon">🌙</span>
+    </button>
+    <h1>Alur Siaran Nusantara TV</h1>
+    <p class="tagline">Panduan teknis penyiaran NTV — dari MCR hingga layar penonton</p>
+  </div>
 
-  <div class="tabs">
-    <button class="tab active" onclick="show('flow', this)">📺 Alur Siaran</button>
-    <button class="tab" onclick="show('mcr', this)">🎛️ MCR &amp; Produksi</button>
-    <button class="tab" onclick="show('transmisi', this)">📡 Transmisi</button>
-    <button class="tab" onclick="show('pemancar', this)">🗼 Pemancar</button>
-    <button class="tab" onclick="show('alat', this)">📋 Daftar Alat</button>
+  <div class="tabs-wrapper">
+    <div class="tabs" role="tablist">
+      <button id="tab-flow" class="tab" role="tab" aria-selected="true" aria-controls="flow"
+        onclick="show('flow', this)">📺 Alur Siaran</button>
+      <button id="tab-mcr" class="tab" role="tab" aria-selected="false" aria-controls="mcr"
+        onclick="show('mcr', this)">🎛️ MCR &amp; Produksi</button>
+      <button id="tab-transmisi" class="tab" role="tab" aria-selected="false" aria-controls="transmisi"
+        onclick="show('transmisi', this)">📡 Transmisi</button>
+      <button id="tab-pemancar" class="tab" role="tab" aria-selected="false" aria-controls="pemancar"
+        onclick="show('pemancar', this)">🗼 Pemancar</button>
+      <button id="tab-alat" class="tab" role="tab" aria-selected="false" aria-controls="alat"
+        onclick="show('alat', this)">📋 Daftar Alat</button>
+    </div>
   </div>
 
   <!-- ===== PAGE 1: ALUR UTAMA ===== -->
-  <div id="flow" class="page active">
+  <div id="flow" class="page active" role="tabpanel" aria-labelledby="tab-flow">
     <div class="card">
       <div class="card-title">Flowchart Penyiaran NTV — MCR ke Penonton</div>
       <div class="flow-wrap">
 
         <!-- MCR BLOCK -->
-        <div class="flow-box s-purple">
+        <div class="flow-box s-purple clickable-flow" onclick="show('mcr', document.getElementById('tab-mcr'))"
+          title="Klik untuk lihat detail MCR">
           <div class="step-num">TAHAP 1 — PUSAT KENDALI</div>
           <div class="step-title">MCR (Master Control Room)</div>
           <div class="step-desc">Jantung seluruh siaran. Semua konten (live studio, rekaman dari server Aveco, iklan)
@@ -405,7 +597,9 @@
         </div>
 
         <!-- ALAT ISP TX -->
-        <div class="flow-box s-blue">
+        <div class="flow-box s-blue clickable-flow"
+          onclick="show('transmisi', document.getElementById('tab-transmisi'))"
+          title="Klik untuk lihat detail Transmisi">
           <div class="step-num">TAHAP 2 — TITIK KIRIM</div>
           <div class="step-title">Alat ISP TX (di NT Tower)</div>
           <div class="step-desc">Perangkat yang dipasang ISP di sisi MCR. Mengubah sinyal video IP dari encoder menjadi
@@ -417,7 +611,9 @@
         <div class="arrow-down">↓<span class="arr-label">Protokol UTP Multicast masuk ke jaringan fiber</span></div>
 
         <!-- FIBER OPTIC -->
-        <div class="flow-box s-teal">
+        <div class="flow-box s-teal clickable-flow"
+          onclick="show('transmisi', document.getElementById('tab-transmisi'))"
+          title="Klik untuk lihat detail Transmisi">
           <div class="step-num">TAHAP 3 — JALUR TRANSMISI</div>
           <div class="step-title">Fiber Optic Metro-E</div>
           <div class="step-desc">Jalur utama pengiriman sinyal dari NT Tower ke lokasi pemancar. Menggunakan cahaya
@@ -429,7 +625,8 @@
         <div class="arrow-down">↓<span class="arr-label">Sinyal IP tiba di lokasi pemancar</span></div>
 
         <!-- ALAT ISP RX -->
-        <div class="flow-box s-blue">
+        <div class="flow-box s-blue clickable-flow" onclick="show('pemancar', document.getElementById('tab-pemancar'))"
+          title="Klik untuk lihat detail Pemancar">
           <div class="step-num">TAHAP 4 — TITIK TERIMA</div>
           <div class="step-title">Alat ISP RX (di lokasi pemancar)</div>
           <div class="step-desc">Pasangan dari alat ISP TX. Menerima sinyal dari jaringan fiber dan mengubahnya kembali
@@ -441,16 +638,18 @@
 
         <!-- BACKUP: CABANG DUA JALUR -->
         <div style="width:100%;max-width:520px;text-align:center;margin-bottom:4px">
-          <span style="font-size:11px;color:#888780">Jika fiber gangguan → otomatis beralih ke jalur backup
+          <span style="font-size:11px;color:var(--text-muted)">Jika fiber gangguan → otomatis beralih ke jalur backup
             satelit</span>
         </div>
         <div class="branch-row">
-          <div class="branch-box s-teal">
+          <div class="branch-box s-teal clickable-flow"
+            onclick="show('pemancar', document.getElementById('tab-pemancar'))">
             <div class="branch-label">Jalur Utama</div>
             <div class="branch-title">IP Input (dari fiber)</div>
             <div class="branch-desc">Sinyal IP multicast dari ISP RX masuk ke IRD Harmonic</div>
           </div>
-          <div class="branch-box s-amber">
+          <div class="branch-box s-amber clickable-flow"
+            onclick="show('transmisi', document.getElementById('tab-transmisi'))">
             <div class="branch-label">Jalur Backup</div>
             <div class="branch-title">RF Input (dari satelit)</div>
             <div class="branch-desc">Dish TVRO menangkap sinyal satelit Telkomsat → masuk ke IRD</div>
@@ -460,7 +659,8 @@
         <div class="arrow-down">↓<span class="arr-label">Kedua jalur masuk ke IRD Harmonic</span></div>
 
         <!-- IRD -->
-        <div class="flow-box s-teal">
+        <div class="flow-box s-teal clickable-flow" onclick="show('pemancar', document.getElementById('tab-pemancar'))"
+          title="Klik untuk lihat detail Pemancar">
           <div class="step-num">TAHAP 5 — DECODER</div>
           <div class="step-title">IRD Harmonic (di lokasi pemancar)</div>
           <div class="step-desc">Menerima sinyal dari fiber (IP) atau satelit (RF), lalu mendekodenya kembali menjadi
@@ -472,7 +672,8 @@
         <div class="arrow-down">↓<span class="arr-label">Output ASI ke MUX</span></div>
 
         <!-- MUX -->
-        <div class="flow-box s-teal">
+        <div class="flow-box s-teal clickable-flow" onclick="show('pemancar', document.getElementById('tab-pemancar'))"
+          title="Klik untuk lihat detail Pemancar">
           <div class="step-num">TAHAP 6 — MULTIPLEXER</div>
           <div class="step-title">MUX TVRI</div>
           <div class="step-desc">Menggabungkan sinyal NTV bersama channel TV lain ke dalam satu frekuensi siaran. Satu
@@ -484,7 +685,8 @@
         <div class="arrow-down">↓<span class="arr-label">Transport stream digital → ke exciter pemancar</span></div>
 
         <!-- PEMANCAR -->
-        <div class="flow-box s-coral">
+        <div class="flow-box s-coral clickable-flow" onclick="show('pemancar', document.getElementById('tab-pemancar'))"
+          title="Klik untuk lihat detail Pemancar">
           <div class="step-num">TAHAP 7 — PEMANCAR</div>
           <div class="step-title">Pemancar DVB-T2</div>
           <div class="step-desc">Mengubah data digital menjadi gelombang elektromagnetik dan memancarkannya ke udara.
@@ -510,9 +712,13 @@
   </div>
 
   <!-- ===== PAGE 2: MCR & PRODUKSI ===== -->
-  <div id="mcr" class="page">
+  <div id="mcr" class="page" role="tabpanel" aria-labelledby="tab-mcr">
     <div class="card">
       <div class="card-title">MCR — Master Control Room</div>
+      <div class="img-placeholder">
+        [ Area Placeholder Gambar/Foto MCR Nusantara TV ]<br><br>
+        (Anda dapat mengganti elemen ini dengan tag &lt;img src="foto-mcr.jpg"&gt;)
+      </div>
       <span class="badge badge-purple">Pusat kendali siaran</span>
       <p style="font-size:13px;line-height:1.7;margin-bottom:12px">MCR adalah <strong>jantung operasi siaran
           NTV</strong>. Semua sinyal dari studio, server playout, maupun sumber luar masuk ke sini. Tidak ada satu pun
@@ -586,9 +792,13 @@
   </div>
 
   <!-- ===== PAGE 3: TRANSMISI ===== -->
-  <div id="transmisi" class="page">
+  <div id="transmisi" class="page" role="tabpanel" aria-labelledby="tab-transmisi">
     <div class="card">
-      <div class="card-title">Alat ISP TX &amp; RX</div>
+      <div class="card-title">Alur Transmisi &amp; Jaringan</div>
+      <div class="img-placeholder">
+        [ Area Placeholder Gambar Fiber Optic / Alat Transmisi / Dish Parabola ]
+      </div>
+      <div class="card-title" style="margin-top:20px; border-top:none;">Alat ISP TX &amp; RX</div>
       <span class="badge badge-blue">Jembatan jaringan</span>
       <p style="font-size:13px;line-height:1.7;margin-bottom:10px">Perangkat yang dipasang ISP di kedua ujung koneksi
         Metro-E. <strong>TX</strong> berada di NT Tower (sisi pengirim), <strong>RX</strong> berada di lokasi pemancar
@@ -683,9 +893,13 @@
   </div>
 
   <!-- ===== PAGE 4: PEMANCAR ===== -->
-  <div id="pemancar" class="page">
+  <div id="pemancar" class="page" role="tabpanel" aria-labelledby="tab-pemancar">
     <div class="card">
-      <div class="card-title">IRD Harmonic — Decoder</div>
+      <div class="card-title">Lokasi Pemancar &amp; Dekoder</div>
+      <div class="img-placeholder">
+        [ Area Placeholder Gambar Rak Server Pemancar / Menara Antena DVB-T2 ]
+      </div>
+      <div class="card-title" style="margin-top:20px; border-top:none;">IRD Harmonic — Decoder</div>
       <span class="badge badge-teal">Penerima & decoder sinyal</span>
       <p style="font-size:13px;line-height:1.7;margin-bottom:10px"><strong>IRD = Integrated Receiver Decoder.</strong>
         Menerima sinyal dari dua jalur (fiber/satelit), mendekode video terkompresi, dan mengubahnya ke format ASI untuk
@@ -773,13 +987,14 @@
           <td>Set-top box DVB-T2 + antena UHF + kabel HDMI/RCA</td>
         </tr>
       </table>
-      <p style="font-size:12px;color:#888780;margin-top:8px">Pastikan perangkat memiliki logo DVB-T2 atau logo Siaran
+      <p style="font-size:12px;color:var(--text-muted);margin-top:8px">Pastikan perangkat memiliki logo DVB-T2 atau logo
+        Siaran
         Digital dari Kominfo.</p>
     </div>
   </div>
 
   <!-- ===== PAGE 5: DAFTAR ALAT ===== -->
-  <div id="alat" class="page">
+  <div id="alat" class="page" role="tabpanel" aria-labelledby="tab-alat">
     <div class="card">
       <div class="card-title">Daftar Lengkap Alat dalam Proses Siaran NTV</div>
       <table>
@@ -789,7 +1004,8 @@
           <th>Fungsi Singkat</th>
         </tr>
         <tr>
-          <td rowspan="7" style="font-weight:500;color:#3c3489;vertical-align:top;padding-top:10px">MCR<br>NT Tower</td>
+          <td rowspan="7" style="font-weight:500;color:var(--flow-purple-text);vertical-align:top;padding-top:10px">
+            MCR<br>NT Tower</td>
           <td>Kamera studio</td>
           <td>Merekam gambar presenter / acara live</td>
         </tr>
@@ -819,7 +1035,7 @@
         </tr>
 
         <tr>
-          <td rowspan="3" style="font-weight:500;color:#0c447c;vertical-align:top;padding-top:10px">
+          <td rowspan="3" style="font-weight:500;color:var(--flow-blue-text);vertical-align:top;padding-top:10px">
             Jaringan<br>Transmisi</td>
           <td>Alat ISP TX</td>
           <td>Konversi UTP → fiber, titik kirim jaringan</td>
@@ -834,7 +1050,8 @@
         </tr>
 
         <tr>
-          <td rowspan="2" style="font-weight:500;color:#633806;vertical-align:top;padding-top:10px">Satelit<br>Backup
+          <td rowspan="2" style="font-weight:500;color:var(--flow-amber-text);vertical-align:top;padding-top:10px">
+            Satelit<br>Backup
           </td>
           <td>Dish parabola TVRO</td>
           <td>Menerima sinyal downlink dari satelit Telkomsat</td>
@@ -845,7 +1062,8 @@
         </tr>
 
         <tr>
-          <td rowspan="6" style="font-weight:500;color:#085041;vertical-align:top;padding-top:10px">Lokasi<br>Pemancar
+          <td rowspan="6" style="font-weight:500;color:var(--flow-teal-text);vertical-align:top;padding-top:10px">
+            Lokasi<br>Pemancar
           </td>
           <td>Alat ISP RX</td>
           <td>Konversi fiber → UTP, titik terima jaringan</td>
@@ -872,7 +1090,8 @@
         </tr>
 
         <tr>
-          <td rowspan="2" style="font-weight:500;color:#27500a;vertical-align:top;padding-top:10px">Sisi<br>Penonton
+          <td rowspan="2" style="font-weight:500;color:var(--flow-green-text);vertical-align:top;padding-top:10px">
+            Sisi<br>Penonton
           </td>
           <td>Antena UHF</td>
           <td>Menangkap sinyal dari pemancar</td>
@@ -886,21 +1105,54 @@
   </div>
 
   <script>
+    // Theme Management
+    function initTheme() {
+      const savedTheme = localStorage.getItem('theme');
+      if (savedTheme) {
+        document.documentElement.setAttribute('data-theme', savedTheme);
+        updateThemeIcon(savedTheme);
+      } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        // Fallback to system preference
+        document.documentElement.setAttribute('data-theme', 'dark');
+        updateThemeIcon('dark');
+      }
+    }
+
+    function toggleTheme() {
+      const currentTheme = document.documentElement.getAttribute('data-theme');
+      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+
+      document.documentElement.setAttribute('data-theme', newTheme);
+      localStorage.setItem('theme', newTheme);
+      updateThemeIcon(newTheme);
+    }
+
+    function updateThemeIcon(theme) {
+      const icon = document.getElementById('theme-icon');
+      icon.innerText = theme === 'dark' ? '☀️' : '🌙';
+    }
+
+    // Page Navigation
     function show(id, btnElement) {
       // Sembunyikan semua halaman dan hapus status aktif pada tab
       document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.tab').forEach(t => {
+        t.classList.remove('active');
+        t.setAttribute('aria-selected', 'false'); // A11y
+      });
 
       // Tampilkan halaman yang dipilih
       const targetPage = document.getElementById(id);
       targetPage.classList.add('active');
 
-      // Beri status aktif pada tombol yang diklik
+      // Beri status aktif pada tombol tab yang bersangkutan
       if (btnElement) {
         btnElement.classList.add('active');
-      } else if (window.event && window.event.target) {
-        window.event.target.classList.add('active');
+        btnElement.setAttribute('aria-selected', 'true');
       }
+
+      // Scroll ke atas dengan mulus (berguna jika pindah dari bawah layar)
+      window.scrollTo({ top: 0, behavior: 'smooth' });
 
       // Efek animasi muncul secara bertahap (staggered animation) untuk elemen di dalam halaman
       const animateElements = targetPage.querySelectorAll('.card, .flow-box, .arrow-down, .branch-row, .detail-card, table');
@@ -920,15 +1172,17 @@
     }
 
     document.addEventListener('DOMContentLoaded', () => {
+      initTheme();
+
       // 1. Tambahkan efek interaktif saat mouse diarahkan (hover) pada kotak-kotak informasi
       const interactiveBoxes = document.querySelectorAll('.flow-box, .detail-card, .branch-box');
       interactiveBoxes.forEach(box => {
         // Pastikan transisi CSS aktif untuk perubahan transform dan box-shadow
-        box.style.transition = 'transform 0.3s ease, box-shadow 0.3s ease';
+        box.style.transition = 'transform 0.3s ease, box-shadow 0.3s ease, background-color 0.3s ease';
 
         box.addEventListener('mouseenter', () => {
           box.style.transform = 'translateY(-4px) scale(1.01)';
-          box.style.boxShadow = '0 8px 16px rgba(0,0,0,0.1)';
+          box.style.boxShadow = '0 8px 16px rgba(0,0,0,0.15)';
           box.style.zIndex = '10'; // Bawa ke depan saat di-hover
         });
 
@@ -941,7 +1195,7 @@
 
       // 2. Jalankan animasi untuk halaman pertama yang aktif secara otomatis saat web dimuat
       const activeTabId = document.querySelector('.page.active').id;
-      const activeBtn = document.querySelector('.tab.active');
+      const activeBtn = document.querySelector('.tab[aria-selected="true"]');
       show(activeTabId, activeBtn);
     });
   </script>
