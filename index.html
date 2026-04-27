@@ -1,0 +1,950 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alur Siaran NTV</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0
+    }
+
+    body {
+      font-family: sans-serif;
+      background: #ffffff;
+      color: #1a1a18;
+      padding: 20px 16px
+    }
+
+    h1 {
+      font-size: 22px;
+      font-weight: 500;
+      text-align: center;
+      margin-bottom: 4px
+    }
+
+    .tagline {
+      text-align: center;
+      font-size: 13px;
+      color: #888780;
+      margin-bottom: 28px
+    }
+
+    /* NAV TABS */
+    .tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+      justify-content: center
+    }
+
+    .tab {
+      padding: 8px 18px;
+      border-radius: 25px;
+      border: 2px solid #e8e6de;
+      background: #fff;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      color: #5f5e5a;
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .tab:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 6px 12px rgba(60, 52, 137, 0.15);
+      color: #3c3489;
+      border-color: #afa9ec;
+    }
+
+    .tab:active {
+      transform: translateY(1px);
+    }
+
+    .tab.active {
+      background: linear-gradient(135deg, #3c3489, #5e54bc);
+      color: #fff;
+      border-color: transparent;
+      box-shadow: 0 4px 15px rgba(60, 52, 137, 0.3);
+      transform: translateY(-2px);
+    }
+
+    /* PAGES */
+    .page {
+      display: none
+    }
+
+    .page.active {
+      display: block
+    }
+
+    /* CARDS */
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      border: 1px solid #e8e6de;
+      padding: 20px;
+      margin-bottom: 16px
+    }
+
+    .card-title {
+      font-size: 15px;
+      font-weight: 500;
+      margin-bottom: 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #f1efe8
+    }
+
+    /* FLOW */
+    .flow-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0
+    }
+
+    .flow-box {
+      width: 100%;
+      max-width: 520px;
+      border-radius: 10px;
+      padding: 14px 18px;
+      position: relative
+    }
+
+    .flow-box .step-num {
+      font-size: 11px;
+      font-weight: 500;
+      opacity: .7;
+      margin-bottom: 3px
+    }
+
+    .flow-box .step-title {
+      font-size: 15px;
+      font-weight: 500;
+      margin-bottom: 4px
+    }
+
+    .flow-box .step-desc {
+      font-size: 12px;
+      line-height: 1.6;
+      opacity: .85
+    }
+
+    .flow-box .step-tools {
+      font-size: 11px;
+      margin-top: 6px;
+      opacity: .7;
+      font-style: italic
+    }
+
+    .arrow-down {
+      text-align: center;
+      font-size: 20px;
+      color: #888780;
+      line-height: 1;
+      padding: 2px 0;
+      position: relative
+    }
+
+    .arrow-down .arr-label {
+      font-size: 11px;
+      color: #888780;
+      display: block;
+      margin-top: 1px
+    }
+
+    /* Color themes per step */
+    .s-purple {
+      background: #eeedfe;
+      border: 1px solid #afa9ec
+    }
+
+    .s-purple .step-num,
+    .s-purple .step-title {
+      color: #3c3489
+    }
+
+    .s-blue {
+      background: #e6f1fb;
+      border: 1px solid #85b7eb
+    }
+
+    .s-blue .step-num,
+    .s-blue .step-title {
+      color: #0c447c
+    }
+
+    .s-teal {
+      background: #e1f5ee;
+      border: 1px solid #5dcaa5
+    }
+
+    .s-teal .step-num,
+    .s-teal .step-title {
+      color: #085041
+    }
+
+    .s-amber {
+      background: #faeeda;
+      border: 1px solid #ef9f27
+    }
+
+    .s-amber .step-num,
+    .s-amber .step-title {
+      color: #633806
+    }
+
+    .s-coral {
+      background: #faece7;
+      border: 1px solid #f0997b
+    }
+
+    .s-coral .step-num,
+    .s-coral .step-title {
+      color: #712b13
+    }
+
+    .s-green {
+      background: #eaf3de;
+      border: 1px solid #97c459
+    }
+
+    .s-green .step-num,
+    .s-green .step-title {
+      color: #27500a
+    }
+
+    /* Branch layout */
+    .branch-row {
+      display: flex;
+      gap: 12px;
+      width: 100%;
+      max-width: 520px;
+      justify-content: center
+    }
+
+    .branch-box {
+      flex: 1;
+      border-radius: 10px;
+      padding: 12px 14px
+    }
+
+    .branch-label {
+      font-size: 11px;
+      font-weight: 500;
+      margin-bottom: 3px;
+      opacity: .7
+    }
+
+    .branch-title {
+      font-size: 13px;
+      font-weight: 500;
+      margin-bottom: 3px
+    }
+
+    .branch-desc {
+      font-size: 11px;
+      line-height: 1.5;
+      opacity: .8
+    }
+
+    /* DETAIL PAGES */
+    .detail-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px
+    }
+
+    @media(max-width:480px) {
+      .detail-grid {
+        grid-template-columns: 1fr
+      }
+    }
+
+    .detail-card {
+      background: #fff;
+      border-radius: 10px;
+      border: 1px solid #e8e6de;
+      padding: 14px
+    }
+
+    .detail-card h3 {
+      font-size: 13px;
+      font-weight: 500;
+      margin-bottom: 8px;
+      color: #3c3489
+    }
+
+    .detail-card p,
+    .detail-card li {
+      font-size: 12px;
+      line-height: 1.7;
+      color: #444441
+    }
+
+    .detail-card ul {
+      padding-left: 16px
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 10px;
+      font-size: 11px;
+      font-weight: 500;
+      margin-bottom: 8px
+    }
+
+    .badge-purple {
+      background: #eeedfe;
+      color: #3c3489
+    }
+
+    .badge-blue {
+      background: #e6f1fb;
+      color: #0c447c
+    }
+
+    .badge-teal {
+      background: #e1f5ee;
+      color: #085041
+    }
+
+    .badge-amber {
+      background: #faeeda;
+      color: #633806
+    }
+
+    .badge-coral {
+      background: #faece7;
+      color: #712b13
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+      margin-top: 8px
+    }
+
+    th {
+      background: #f1efe8;
+      padding: 7px 10px;
+      text-align: left;
+      font-weight: 500;
+      color: #444441
+    }
+
+    td {
+      padding: 7px 10px;
+      border-top: 1px solid #f1efe8;
+      color: #5f5e5a;
+      vertical-align: top
+    }
+
+    tr:hover td {
+      background: #fafaf8
+    }
+
+    .analogy {
+      background: #f5f4f0;
+      border-radius: 8px;
+      padding: 12px;
+      font-size: 12px;
+      line-height: 1.7;
+      color: #5f5e5a;
+      border-left: 3px solid #7f77dd;
+      margin-top: 10px
+    }
+
+    .analogy strong {
+      color: #3c3489
+    }
+
+    /* Dark mode styling dihilangkan agar tampilan selalu cerah/putih */
+  </style>
+</head>
+
+<body>
+
+  <h1>Alur Siaran Nusantara TV</h1>
+  <p class="tagline">Panduan teknis penyiaran NTV — dari MCR hingga layar penonton</p>
+
+  <div class="tabs">
+    <button class="tab active" onclick="show('flow', this)">📺 Alur Siaran</button>
+    <button class="tab" onclick="show('mcr', this)">🎛️ MCR &amp; Produksi</button>
+    <button class="tab" onclick="show('transmisi', this)">📡 Transmisi</button>
+    <button class="tab" onclick="show('pemancar', this)">🗼 Pemancar</button>
+    <button class="tab" onclick="show('alat', this)">📋 Daftar Alat</button>
+  </div>
+
+  <!-- ===== PAGE 1: ALUR UTAMA ===== -->
+  <div id="flow" class="page active">
+    <div class="card">
+      <div class="card-title">Flowchart Penyiaran NTV — MCR ke Penonton</div>
+      <div class="flow-wrap">
+
+        <!-- MCR BLOCK -->
+        <div class="flow-box s-purple">
+          <div class="step-num">TAHAP 1 — PUSAT KENDALI</div>
+          <div class="step-title">MCR (Master Control Room)</div>
+          <div class="step-desc">Jantung seluruh siaran. Semua konten (live studio, rekaman dari server Aveco, iklan)
+            dikontrol, dipantau, dan dipilih di sini sebelum dikirim ke pemancar.</div>
+          <div class="step-tools">Alat: Server Aveco, video storage, master switcher, monitor wall, encoder Harmonic,
+            kabel SDI/BNC</div>
+        </div>
+
+        <div class="arrow-down">↓<span class="arr-label">Sinyal SDI → dikonversi ke IP oleh Encoder Harmonic</span>
+        </div>
+
+        <!-- ALAT ISP TX -->
+        <div class="flow-box s-blue">
+          <div class="step-num">TAHAP 2 — TITIK KIRIM</div>
+          <div class="step-title">Alat ISP TX (di NT Tower)</div>
+          <div class="step-desc">Perangkat yang dipasang ISP di sisi MCR. Mengubah sinyal video IP dari encoder menjadi
+            format yang siap dikirim melalui jaringan fiber optic. Titik batas antara jaringan NTV dan jaringan ISP.
+          </div>
+          <div class="step-tools">Alat: Media converter / CPE ISP, switch jaringan, SFP transceiver</div>
+        </div>
+
+        <div class="arrow-down">↓<span class="arr-label">Protokol UTP Multicast masuk ke jaringan fiber</span></div>
+
+        <!-- FIBER OPTIC -->
+        <div class="flow-box s-teal">
+          <div class="step-num">TAHAP 3 — JALUR TRANSMISI</div>
+          <div class="step-title">Fiber Optic Metro-E</div>
+          <div class="step-desc">Jalur utama pengiriman sinyal dari NT Tower ke lokasi pemancar. Menggunakan cahaya
+            laser yang merambat di dalam kabel serat kaca — bisa menjangkau puluhan kilometer dengan kualitas stabil.
+          </div>
+          <div class="step-tools">Alat: Kabel fiber optic, ODF (Optical Distribution Frame), switch jaringan</div>
+        </div>
+
+        <div class="arrow-down">↓<span class="arr-label">Sinyal IP tiba di lokasi pemancar</span></div>
+
+        <!-- ALAT ISP RX -->
+        <div class="flow-box s-blue">
+          <div class="step-num">TAHAP 4 — TITIK TERIMA</div>
+          <div class="step-title">Alat ISP RX (di lokasi pemancar)</div>
+          <div class="step-desc">Pasangan dari alat ISP TX. Menerima sinyal dari jaringan fiber dan mengubahnya kembali
+            ke format UTP/IP yang bisa dibaca oleh IRD Harmonic di lokasi pemancar.</div>
+          <div class="step-tools">Alat: Media converter / CPE ISP, switch jaringan</div>
+        </div>
+
+        <div class="arrow-down">↓<span class="arr-label">Sinyal IP siap didekode</span></div>
+
+        <!-- BACKUP: CABANG DUA JALUR -->
+        <div style="width:100%;max-width:520px;text-align:center;margin-bottom:4px">
+          <span style="font-size:11px;color:#888780">Jika fiber gangguan → otomatis beralih ke jalur backup
+            satelit</span>
+        </div>
+        <div class="branch-row">
+          <div class="branch-box s-teal">
+            <div class="branch-label">Jalur Utama</div>
+            <div class="branch-title">IP Input (dari fiber)</div>
+            <div class="branch-desc">Sinyal IP multicast dari ISP RX masuk ke IRD Harmonic</div>
+          </div>
+          <div class="branch-box s-amber">
+            <div class="branch-label">Jalur Backup</div>
+            <div class="branch-title">RF Input (dari satelit)</div>
+            <div class="branch-desc">Dish TVRO menangkap sinyal satelit Telkomsat → masuk ke IRD</div>
+          </div>
+        </div>
+
+        <div class="arrow-down">↓<span class="arr-label">Kedua jalur masuk ke IRD Harmonic</span></div>
+
+        <!-- IRD -->
+        <div class="flow-box s-teal">
+          <div class="step-num">TAHAP 5 — DECODER</div>
+          <div class="step-title">IRD Harmonic (di lokasi pemancar)</div>
+          <div class="step-desc">Menerima sinyal dari fiber (IP) atau satelit (RF), lalu mendekodenya kembali menjadi
+            sinyal video format ASI yang bisa diproses MUX. Jika jalur utama putus, IRD otomatis beralih ke jalur
+            satelit.</div>
+          <div class="step-tools">Alat: IRD Harmonic (rack unit 1U/2U), port LAN, port RF, port ASI output</div>
+        </div>
+
+        <div class="arrow-down">↓<span class="arr-label">Output ASI ke MUX</span></div>
+
+        <!-- MUX -->
+        <div class="flow-box s-teal">
+          <div class="step-num">TAHAP 6 — MULTIPLEXER</div>
+          <div class="step-title">MUX TVRI</div>
+          <div class="step-desc">Menggabungkan sinyal NTV bersama channel TV lain ke dalam satu frekuensi siaran. Satu
+            frekuensi 8 MHz yang dulu hanya memuat 1 channel analog, kini bisa memuat 6–12 channel digital sekaligus.
+          </div>
+          <div class="step-tools">Alat: Multiplexer Harmonic, ASI router, sistem monitoring transport stream</div>
+        </div>
+
+        <div class="arrow-down">↓<span class="arr-label">Transport stream digital → ke exciter pemancar</span></div>
+
+        <!-- PEMANCAR -->
+        <div class="flow-box s-coral">
+          <div class="step-num">TAHAP 7 — PEMANCAR</div>
+          <div class="step-title">Pemancar DVB-T2</div>
+          <div class="step-desc">Mengubah data digital menjadi gelombang elektromagnetik dan memancarkannya ke udara.
+            Proses: Exciter (modulasi OFDM) → Amplifier (perkuat daya ratusan–ribuan watt) → Filter + Antena (pancarkan
+            ke udara).</div>
+          <div class="step-tools">Alat: Exciter, amplifier, filter, feeder cable, antena UHF, menara transmisi, UPS +
+            genset</div>
+        </div>
+
+        <div class="arrow-down">↓<span class="arr-label">Gelombang RF UHF menyebar ke udara</span></div>
+
+        <!-- PENONTON -->
+        <div class="flow-box s-green">
+          <div class="step-num">TAHAP 8 — PENERIMA</div>
+          <div class="step-title">Antena &amp; TV Penonton</div>
+          <div class="step-desc">Antena UHF menangkap gelombang dari pemancar. TV digital atau set-top box DVB-T2
+            mendekode sinyal menjadi gambar dan suara yang tampil di layar.</div>
+          <div class="step-tools">Alat: Antena UHF, TV digital built-in DVB-T2, atau set-top box DVB-T2</div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== PAGE 2: MCR & PRODUKSI ===== -->
+  <div id="mcr" class="page">
+    <div class="card">
+      <div class="card-title">MCR — Master Control Room</div>
+      <span class="badge badge-purple">Pusat kendali siaran</span>
+      <p style="font-size:13px;line-height:1.7;margin-bottom:12px">MCR adalah <strong>jantung operasi siaran
+          NTV</strong>. Semua sinyal dari studio, server playout, maupun sumber luar masuk ke sini. Tidak ada satu pun
+        gambar yang tayang di TV penonton tanpa melewati MCR.</p>
+      <div class="analogy"><strong>Analogi:</strong> MCR seperti menara kontrol bandara (ATC). Pilot (studio) yang
+        menerbangkan pesawat, tapi ATC (MCR) yang menentukan siapa yang boleh terbang, kapan, dan ke mana.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Komponen di Dalam MCR</div>
+      <div class="detail-grid">
+        <div class="detail-card">
+          <h3>Server Aveco (Playout Otomatis)</h3>
+          <p>Sistem yang menjalankan jadwal siaran secara otomatis. Kapan program tayang, kapan iklan masuk, kapan
+            jingle stasiun — semua dijalankan Aveco tanpa operator menekan tombol manual.</p>
+          <div class="analogy" style="margin-top:8px"><strong>Analogi:</strong> DJ otomatis yang sudah diprogram setlist
+            siaran dari pagi sampai malam.</div>
+        </div>
+        <div class="detail-card">
+          <h3>Video Storage</h3>
+          <p>Harddisk/server berkapasitas besar tempat semua file video (program, iklan, bumper, jingle) tersimpan.
+            Aveco mengambil file dari sini saat waktunya tayang.</p>
+        </div>
+        <div class="detail-card">
+          <h3>Master Switcher</h3>
+          <p>Menentukan sumber mana yang sedang on-air — apakah dari studio live, server playout, atau feed luar.
+            Operator MCR mengontrol ini secara real-time.</p>
+        </div>
+        <div class="detail-card">
+          <h3>Encoder Harmonic</h3>
+          <p>Mengubah sinyal video SDI (kabel BNC, jarak dekat) menjadi format IP/UTP yang bisa dikirim jauh melalui
+            fiber optic. Menggunakan kompresi H.264/H.265.</p>
+        </div>
+        <div class="detail-card">
+          <h3>Monitor Wall</h3>
+          <p>Deretan layar besar yang menampilkan semua sumber sinyal sekaligus — studio, playout, feed satelit.
+            Operator memantau kualitas semua siaran dari sini.</p>
+        </div>
+        <div class="detail-card">
+          <h3>Routing &amp; Intercom</h3>
+          <p>Sistem pengarahan sinyal dan komunikasi internal antar tim produksi, kamera, dan operator MCR.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Sumber Konten yang Masuk ke MCR</div>
+      <table>
+        <tr>
+          <th>Sumber</th>
+          <th>Format</th>
+          <th>Keterangan</th>
+        </tr>
+        <tr>
+          <td>Studio live</td>
+          <td>SDI (BNC)</td>
+          <td>Siaran langsung berita, talkshow, event</td>
+        </tr>
+        <tr>
+          <td>Server Aveco</td>
+          <td>SDI</td>
+          <td>Program rekaman, iklan, bumper tayang otomatis</td>
+        </tr>
+        <tr>
+          <td>Feed eksternal</td>
+          <td>SDI / IP</td>
+          <td>Siaran langsung dari luar studio (olahraga, liputan)</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- ===== PAGE 3: TRANSMISI ===== -->
+  <div id="transmisi" class="page">
+    <div class="card">
+      <div class="card-title">Alat ISP TX &amp; RX</div>
+      <span class="badge badge-blue">Jembatan jaringan</span>
+      <p style="font-size:13px;line-height:1.7;margin-bottom:10px">Perangkat yang dipasang ISP di kedua ujung koneksi
+        Metro-E. <strong>TX</strong> berada di NT Tower (sisi pengirim), <strong>RX</strong> berada di lokasi pemancar
+        (sisi penerima).</p>
+      <table>
+        <tr>
+          <th>Fungsi</th>
+          <th>Penjelasan</th>
+        </tr>
+        <tr>
+          <td>Konversi UTP → Fiber</td>
+          <td>Mengubah sinyal elektrik dari encoder menjadi cahaya yang bisa dikirim via fiber optic</td>
+        </tr>
+        <tr>
+          <td>Enkapsulasi multicast</td>
+          <td>Mengemas paket video UDP multicast sesuai standar jaringan Metro-E</td>
+        </tr>
+        <tr>
+          <td>Demarcation point</td>
+          <td>Titik batas: masalah sebelum alat ini = tanggung jawab NTV, setelahnya = tanggung jawab ISP</td>
+        </tr>
+        <tr>
+          <td>Monitoring jarak jauh</td>
+          <td>ISP bisa pantau kondisi koneksi (latency, packet loss, bandwidth) dari jauh</td>
+        </tr>
+      </table>
+      <div class="analogy" style="margin-top:10px"><strong>Analogi:</strong> ISP TX = kantor pos Jakarta (tempat surat
+        diserahkan). ISP RX = kantor pos Surabaya (tempat surat diterima). Fiber optic = jalur pengiriman resmi antara
+        keduanya.</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Fiber Optic Metro-E</div>
+      <span class="badge badge-teal">Jalur transmisi utama</span>
+      <p style="font-size:13px;line-height:1.7;margin-bottom:10px">Jaringan fiber optic <strong>dedicated
+          (khusus)</strong> yang menghubungkan NT Tower dengan lokasi pemancar. Bandwidth tidak dibagi pengguna lain
+        sehingga kualitas stabil.</p>
+      <table>
+        <tr>
+          <th>Aspek</th>
+          <th>Kabel Tembaga</th>
+          <th>Fiber Optic</th>
+        </tr>
+        <tr>
+          <td>Media</td>
+          <td>Listrik</td>
+          <td>Cahaya laser</td>
+        </tr>
+        <tr>
+          <td>Jarak</td>
+          <td>Maks ~100m</td>
+          <td>Puluhan km</td>
+        </tr>
+        <tr>
+          <td>Gangguan</td>
+          <td>Rentan interferensi</td>
+          <td>Kebal interferensi</td>
+        </tr>
+        <tr>
+          <td>Kecepatan</td>
+          <td>Ratusan Mbps</td>
+          <td>Hingga ratusan Gbps</td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Satelit Telkomsat &amp; TVRO (Jalur Backup)</div>
+      <span class="badge badge-amber">Jalur cadangan otomatis</span>
+      <p style="font-size:13px;line-height:1.7;margin-bottom:10px">Jika fiber optic gangguan, IRD otomatis beralih ke
+        jalur satelit. Sinyal NTV dikirim ke satelit Telkomsat via headend (uplink), lalu dipancarkan kembali ke bumi
+        dan ditangkap dish TVRO di lokasi pemancar (downlink).</p>
+      <table>
+        <tr>
+          <th>Komponen TVRO</th>
+          <th>Fungsi</th>
+        </tr>
+        <tr>
+          <td>Dish parabola</td>
+          <td>Mengumpulkan sinyal lemah dari satelit ke satu titik fokus</td>
+        </tr>
+        <tr>
+          <td>LNB</td>
+          <td>Menangkap & memperkuat sinyal, lalu menurunkan frekuensinya agar bisa dikirim via kabel koaksial</td>
+        </tr>
+        <tr>
+          <td>Kabel koaksial</td>
+          <td>Menghubungkan LNB ke IRD di dalam ruangan</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- ===== PAGE 4: PEMANCAR ===== -->
+  <div id="pemancar" class="page">
+    <div class="card">
+      <div class="card-title">IRD Harmonic — Decoder</div>
+      <span class="badge badge-teal">Penerima & decoder sinyal</span>
+      <p style="font-size:13px;line-height:1.7;margin-bottom:10px"><strong>IRD = Integrated Receiver Decoder.</strong>
+        Menerima sinyal dari dua jalur (fiber/satelit), mendekode video terkompresi, dan mengubahnya ke format ASI untuk
+        MUX. Jika jalur utama putus, failover otomatis ke satelit.</p>
+      <div class="analogy"><strong>Analogi:</strong> Seperti orang di ujung penerima yang membuka amplop (paket IP) dan
+        menerjemahkan kode kembali menjadi pesan asli (video siap tayang).</div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">MUX TVRI — Multiplexer</div>
+      <span class="badge badge-teal">Penggabung channel</span>
+      <p style="font-size:13px;line-height:1.7;margin-bottom:10px">Menggabungkan beberapa channel TV dalam <strong>satu
+          frekuensi siaran</strong>. NTV menyewa slot di MUX milik TVRI yang ditunjuk pemerintah sebagai penyelenggara
+        MUX nasional.</p>
+      <table>
+        <tr>
+          <th>Fitur MUX DVB-T2</th>
+          <th>Keterangan</th>
+        </tr>
+        <tr>
+          <td>StatMux</td>
+          <td>Bandwidth dibagi dinamis — channel dengan adegan bergerak cepat dapat lebih banyak data</td>
+        </tr>
+        <tr>
+          <td>Transport Stream</td>
+          <td>Semua channel digabung dalam format MPEG-TS standar internasional</td>
+        </tr>
+        <tr>
+          <td>EPG</td>
+          <td>Menyisipkan jadwal acara yang tampil di TV penonton saat tekan tombol Guide</td>
+        </tr>
+        <tr>
+          <td>Kapasitas</td>
+          <td>1 frekuensi 8 MHz = 6–12 channel digital (vs analog yang hanya 1 channel)</td>
+        </tr>
+      </table>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Pemancar DVB-T2 — 3 Tahap Utama</div>
+      <span class="badge badge-coral">Pancaran ke udara</span>
+      <div class="detail-grid">
+        <div class="detail-card">
+          <h3>Tahap 1 — Exciter</h3>
+          <p>Otak pemancar. Mengubah data digital menjadi sinyal radio menggunakan modulasi <strong>OFDM</strong> — data
+            dipecah ke ribuan sub-frekuensi kecil sekaligus sehingga sangat tahan gangguan. Output masih sangat lemah
+            (miliwatt).</p>
+        </div>
+        <div class="detail-card">
+          <h3>Tahap 2 — Amplifier</h3>
+          <p>Memperkuat sinyal lemah dari exciter menjadi <strong>ratusan hingga ribuan watt</strong>. Semakin tinggi
+            daya, semakin luas jangkauan siaran. Pemancar kota besar bisa menjangkau radius 50–80 km.</p>
+        </div>
+        <div class="detail-card">
+          <h3>Tahap 3 — Filter &amp; Antena</h3>
+          <p>Filter membersihkan frekuensi liar (harmonisa) sebelum dipancarkan. Antena di puncak menara menyebarkan
+            sinyal ke seluruh wilayah jangkauan.</p>
+        </div>
+        <div class="detail-card">
+          <h3>Kenapa DVB-T2 Lebih Baik?</h3>
+          <ul>
+            <li>6–12 channel per frekuensi (vs analog: 1)</li>
+            <li>Gambar jernih atau tidak ada (tidak berbintik)</li>
+            <li>Sangat tahan gangguan berkat OFDM</li>
+            <li>Ada fitur EPG, subtitle, multi-audio</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Penerimaan di Sisi Penonton</div>
+      <span class="badge badge-teal">TV digital / set-top box</span>
+      <table>
+        <tr>
+          <th>Jenis TV</th>
+          <th>Yang Dibutuhkan</th>
+        </tr>
+        <tr>
+          <td>TV sudah built-in DVB-T2</td>
+          <td>Cukup antena UHF biasa + auto scan channel</td>
+        </tr>
+        <tr>
+          <td>TV analog / lama</td>
+          <td>Set-top box DVB-T2 + antena UHF + kabel HDMI/RCA</td>
+        </tr>
+      </table>
+      <p style="font-size:12px;color:#888780;margin-top:8px">Pastikan perangkat memiliki logo DVB-T2 atau logo Siaran
+        Digital dari Kominfo.</p>
+    </div>
+  </div>
+
+  <!-- ===== PAGE 5: DAFTAR ALAT ===== -->
+  <div id="alat" class="page">
+    <div class="card">
+      <div class="card-title">Daftar Lengkap Alat dalam Proses Siaran NTV</div>
+      <table>
+        <tr>
+          <th>Lokasi</th>
+          <th>Alat</th>
+          <th>Fungsi Singkat</th>
+        </tr>
+        <tr>
+          <td rowspan="7" style="font-weight:500;color:#3c3489;vertical-align:top;padding-top:10px">MCR<br>NT Tower</td>
+          <td>Kamera studio</td>
+          <td>Merekam gambar presenter / acara live</td>
+        </tr>
+        <tr>
+          <td>Video switcher</td>
+          <td>Memilih & memotong gambar antar kamera</td>
+        </tr>
+        <tr>
+          <td>Audio mixer</td>
+          <td>Mengatur dan mencampur suara</td>
+        </tr>
+        <tr>
+          <td>Server Aveco</td>
+          <td>Otomasi jadwal playout siaran</td>
+        </tr>
+        <tr>
+          <td>Video storage server</td>
+          <td>Menyimpan semua file program & iklan</td>
+        </tr>
+        <tr>
+          <td>Master switcher</td>
+          <td>Memilih sumber siaran yang on-air</td>
+        </tr>
+        <tr>
+          <td>Encoder Harmonic</td>
+          <td>Konversi SDI → IP (H.264/H.265), via kabel BNC</td>
+        </tr>
+
+        <tr>
+          <td rowspan="3" style="font-weight:500;color:#0c447c;vertical-align:top;padding-top:10px">
+            Jaringan<br>Transmisi</td>
+          <td>Alat ISP TX</td>
+          <td>Konversi UTP → fiber, titik kirim jaringan</td>
+        </tr>
+        <tr>
+          <td>Kabel fiber optic (Metro-E)</td>
+          <td>Jalur transmisi utama NT Tower ke pemancar</td>
+        </tr>
+        <tr>
+          <td>ODF (Optical Distribution Frame)</td>
+          <td>Panel koneksi fiber optic di tiap ujung gedung</td>
+        </tr>
+
+        <tr>
+          <td rowspan="2" style="font-weight:500;color:#633806;vertical-align:top;padding-top:10px">Satelit<br>Backup
+          </td>
+          <td>Dish parabola TVRO</td>
+          <td>Menerima sinyal downlink dari satelit Telkomsat</td>
+        </tr>
+        <tr>
+          <td>LNB</td>
+          <td>Memperkuat & menurunkan frekuensi sinyal satelit</td>
+        </tr>
+
+        <tr>
+          <td rowspan="6" style="font-weight:500;color:#085041;vertical-align:top;padding-top:10px">Lokasi<br>Pemancar
+          </td>
+          <td>Alat ISP RX</td>
+          <td>Konversi fiber → UTP, titik terima jaringan</td>
+        </tr>
+        <tr>
+          <td>IRD Harmonic</td>
+          <td>Decode sinyal IP/RF → ASI/SDI, failover otomatis</td>
+        </tr>
+        <tr>
+          <td>MUX TVRI</td>
+          <td>Gabungkan 6–12 channel dalam 1 frekuensi DVB-T2</td>
+        </tr>
+        <tr>
+          <td>Exciter</td>
+          <td>Modulasi OFDM, bentuk sinyal radio frekuensi UHF</td>
+        </tr>
+        <tr>
+          <td>Amplifier</td>
+          <td>Perkuat daya sinyal ratusan–ribuan watt</td>
+        </tr>
+        <tr>
+          <td>Antena UHF + menara</td>
+          <td>Pancarkan sinyal ke udara, jangkauan 50–80 km</td>
+        </tr>
+
+        <tr>
+          <td rowspan="2" style="font-weight:500;color:#27500a;vertical-align:top;padding-top:10px">Sisi<br>Penonton
+          </td>
+          <td>Antena UHF</td>
+          <td>Menangkap sinyal dari pemancar</td>
+        </tr>
+        <tr>
+          <td>TV digital / STB DVB-T2</td>
+          <td>Dekode sinyal digital → gambar di layar</td>
+        </tr>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    function show(id, btnElement) {
+      // Sembunyikan semua halaman dan hapus status aktif pada tab
+      document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+
+      // Tampilkan halaman yang dipilih
+      const targetPage = document.getElementById(id);
+      targetPage.classList.add('active');
+
+      // Beri status aktif pada tombol yang diklik
+      if (btnElement) {
+        btnElement.classList.add('active');
+      } else if (window.event && window.event.target) {
+        window.event.target.classList.add('active');
+      }
+
+      // Efek animasi muncul secara bertahap (staggered animation) untuk elemen di dalam halaman
+      const animateElements = targetPage.querySelectorAll('.card, .flow-box, .arrow-down, .branch-row, .detail-card, table');
+      animateElements.forEach((el, index) => {
+        // Reset posisi dan opasitas
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(15px)';
+        el.style.transition = 'none';
+
+        // Mulai animasi dengan sedikit jeda (delay) untuk masing-masing elemen
+        setTimeout(() => {
+          el.style.transition = 'all 0.5s cubic-bezier(0.2, 0.8, 0.2, 1)';
+          el.style.opacity = '1';
+          el.style.transform = 'translateY(0)';
+        }, index * 80); // 80ms delay per elemen
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // 1. Tambahkan efek interaktif saat mouse diarahkan (hover) pada kotak-kotak informasi
+      const interactiveBoxes = document.querySelectorAll('.flow-box, .detail-card, .branch-box');
+      interactiveBoxes.forEach(box => {
+        // Pastikan transisi CSS aktif untuk perubahan transform dan box-shadow
+        box.style.transition = 'transform 0.3s ease, box-shadow 0.3s ease';
+
+        box.addEventListener('mouseenter', () => {
+          box.style.transform = 'translateY(-4px) scale(1.01)';
+          box.style.boxShadow = '0 8px 16px rgba(0,0,0,0.1)';
+          box.style.zIndex = '10'; // Bawa ke depan saat di-hover
+        });
+
+        box.addEventListener('mouseleave', () => {
+          box.style.transform = 'translateY(0) scale(1)';
+          box.style.boxShadow = 'none';
+          box.style.zIndex = '1';
+        });
+      });
+
+      // 2. Jalankan animasi untuk halaman pertama yang aktif secara otomatis saat web dimuat
+      const activeTabId = document.querySelector('.page.active').id;
+      const activeBtn = document.querySelector('.tab.active');
+      show(activeTabId, activeBtn);
+    });
+  </script>
+</body>
+
+</html>
